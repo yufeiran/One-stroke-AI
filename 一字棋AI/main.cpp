@@ -59,13 +59,53 @@ void CleanMap()
 	}
 }
 
-bool IsGameOver()
+bool IsTypeWin(ChessMap& map,int type)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		if (NowMap.DATA[i][0]!=0&&(NowMap.DATA[i][0] == NowMap.DATA[i][1])&&(NowMap.DATA[i][1]== NowMap.DATA[i][2]))
+		if (map.DATA[i][0] != 0 && (map.DATA[i][0] == map.DATA[i][1]) && (map.DATA[i][1] == map.DATA[i][2]))
 		{
-			if (NowMap.DATA[i][0] == 1)
+			if (map.DATA[i][0] == type)
+			{
+				return true;
+			}
+		}
+		else if (map.DATA[0][i] != 0 && (map.DATA[0][i] == map.DATA[1][i]) && (map.DATA[1][i] == map.DATA[2][i]))
+		{
+			if (map.DATA[0][i] == type)
+			{
+				return true;
+			}
+		}
+	}
+	if (map.DATA[0][0] != 0 && (map.DATA[0][0] == map.DATA[1][1]) && (map.DATA[1][1] == map.DATA[2][2]))
+	{
+		if (map.DATA[0][0] == type)
+		{
+			return true;
+		}
+	
+	}
+	if (map.DATA[0][2] != 0 && (map.DATA[0][2] == map.DATA[1][1]) && (map.DATA[1][1] == map.DATA[2][0]))
+	{
+		if (map.DATA[0][2] == type)
+		{
+			return true;
+		}
+	}
+
+	//
+
+	return false;
+}
+
+bool IsGameOver(ChessMap& map)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (map.DATA[i][0]!=0&&(map.DATA[i][0] == map.DATA[i][1])&&(map.DATA[i][1]== map.DATA[i][2]))
+		{
+			if (map.DATA[i][0] == 1)
 			{
 				cout << "O WIN!" << endl;
 				return true;
@@ -75,9 +115,9 @@ bool IsGameOver()
 				return true;
 			}
 		}
-		else if (NowMap.DATA[0][i]!=0&& (NowMap.DATA[0][i] == NowMap.DATA[1][i]) && (NowMap.DATA[1][i] == NowMap.DATA[2][i]))
+		else if (map.DATA[0][i]!=0&& (map.DATA[0][i] == map.DATA[1][i]) && (map.DATA[1][i] == map.DATA[2][i]))
 		{
-			if (NowMap.DATA[0][i] == 1)
+			if (map.DATA[0][i] == 1)
 			{
 				cout << "O WIN!" << endl;
 				return true;
@@ -88,9 +128,9 @@ bool IsGameOver()
 			}
 		}
 	}
-	if (NowMap.DATA[0][0] != 0 && (NowMap.DATA[0][0] == NowMap.DATA[1][1])&&(NowMap.DATA[1][1] == NowMap.DATA[2][2]))
+	if (map.DATA[0][0] != 0 && (map.DATA[0][0] == map.DATA[1][1])&&(map.DATA[1][1] == map.DATA[2][2]))
 	{
-		if (NowMap.DATA[0][0] == 1)
+		if (map.DATA[0][0] == 1)
 		{
 			cout << "O WIN!" << endl;
 			return true;
@@ -100,9 +140,9 @@ bool IsGameOver()
 			return true;
 		}
 	}
-	if (NowMap.DATA[0][2] != 0 && (NowMap.DATA[0][2] == NowMap.DATA[1][1])&&(NowMap.DATA[1][1] == NowMap.DATA[2][0]))
+	if (map.DATA[0][2] != 0 && (map.DATA[0][2] == map.DATA[1][1])&&(map.DATA[1][1] == map.DATA[2][0]))
 	{
-		if (NowMap.DATA[0][2] == 1)
+		if (map.DATA[0][2] == 1)
 		{
 			cout << "O WIN!" << endl;
 			return true;
@@ -120,7 +160,7 @@ bool IsGameOver()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			if (NowMap.DATA[i][j] != 0)
+			if (map.DATA[i][j] != 0)
 			{
 				chessCount++;
 			}
@@ -219,6 +259,9 @@ int N(int type,ChessMap &map)
 		count++;
 	}
 	//cout << ((type == 1) ?  'O' : 'X') << "value is " << count << endl;
+	//对于赢的局面增加权重
+	if (IsTypeWin(map,type))
+		count += 10;
 	return count;
 }
 int E(int type, ChessMap& map)
@@ -319,7 +362,7 @@ void main()
 		
 		nowTurn *= -1;
 		
-		if (IsGameOver())
+		if (IsGameOver(NowMap))
 		{
 			DrawMap();
 			CleanMap();
