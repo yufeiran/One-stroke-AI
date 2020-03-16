@@ -112,6 +112,25 @@ bool IsGameOver()
 			return true;
 		}
 	}
+	
+	//
+
+	int chessCount = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (NowMap.DATA[i][j] != 0)
+			{
+				chessCount++;
+			}
+		}
+	}
+	if (chessCount == 9)
+	{
+		cout << "DRAW!" << endl;
+		return true;
+	}
 	return false;
 }
 
@@ -223,6 +242,7 @@ void AI(int type, ChessMap& map)
 			ChessMap NewMap = map;
 			if (NewMap.DATA[i][j] == 0)
 			{
+
 				//cout << "Step 1 X" << j << " Y " << i << endl;
 				int min = 999;
 				
@@ -272,6 +292,7 @@ void main()
 		if (nowTurn == -1)
 		{
 			AI(-1, NowMap);
+			cout << "N " << N(-1, NowMap) << endl;
 		}
 		else
 		{
