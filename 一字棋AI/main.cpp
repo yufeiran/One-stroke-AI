@@ -10,7 +10,7 @@ ChessMap NowMap;
 
 void DrawMap()
 {
-	cout << " ======" << endl;
+	cout <<" ----------- " << endl;
 	for (int i = 0; i < 3; i++)
 	{
 		cout << "|";
@@ -19,17 +19,18 @@ void DrawMap()
 			
 			if (NowMap.DATA[i][j] != 0)
 			{
-				cout << ((NowMap.DATA[i][j] == 1) ? 'O' : 'X') << " ";
+				cout <<" "<< ((NowMap.DATA[i][j] == 1) ? 'O' : 'X') << " |";
 
 			}
 			else
 			{
-				cout << "  ";
+				cout << "   |";
 			}
 		}
-		cout << endl;
+		cout <<endl;
+		cout << " ----------- " << endl;
 	}
-	cout << " ======" << endl;
+
 }
 
 bool PutChess(int x, int y, int type,ChessMap &map)
@@ -259,7 +260,7 @@ int N(int type,ChessMap &map)
 		count++;
 	}
 	//cout << ((type == 1) ?  'O' : 'X') << "value is " << count << endl;
-	//对于赢的局面增加权重
+	//对于赢局面加权
 	if (IsTypeWin(map,type))
 		count += 10;
 	return count;
@@ -320,7 +321,7 @@ void AI(int type, ChessMap& map)
 
 	}
 
-	cout << "AI: choiceX:" << choiceX+1 << " choiceY:" <<3-choiceY << endl;
+	cout << "[AI] (x,y) " << choiceX+1 <<" "<<3-choiceY << endl;
 	PutChess(choiceX, choiceY, type, NowMap);
 }
 
@@ -335,7 +336,7 @@ void main()
 		if (nowTurn == -1)
 		{
 			AI(-1, NowMap);
-			cout << "N " << N(-1, NowMap) << endl;
+			//cout << "N " << N(-1, NowMap) << endl;
 		}
 		else
 		{
